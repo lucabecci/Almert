@@ -1,15 +1,20 @@
-pub struct Map {
+pub struct MapDomain {
     space: Vec<Vec<Option<String>>>
 }
 
-impl Map {
-    pub fn new(rows: usize, cols: usize) -> Map {
-        let space = vec![vec![None; cols]; rows];
+pub trait Map {
+    fn new(rows: usize, cols: usize) -> Self;
+    fn print(&self);
+    fn set_value(&mut self, row: usize, col: usize, value: String);
+}
 
-        Map { space }
+impl Map for MapDomain {
+    fn new(rows: usize, cols: usize) -> Self {
+        let space = vec![vec![None; cols]; rows];
+        MapDomain { space }
     }
 
-    pub fn print(&self) -> None {
+    fn print(&self) {
         for row in &self.space {
             for cell in row {
                 match cell {
@@ -21,7 +26,7 @@ impl Map {
         }
     }
 
-    pub fn set_value(&mut self, row: usize, col: usize, value: String) -> None {
+    fn set_value(&mut self, row: usize, col: usize, value: String) {
         if row < self.space.len() && col < self.space[row].len() {
             self.space[row][col] = Some(value);
         }
